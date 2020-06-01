@@ -56,13 +56,11 @@ class HashTable:
         # Your code here
 
 
-    def djb2(self, key):
-        """
-        DJB2 hash, 32-bit
-
-        Implement this, and/or FNV-1.
-        """
-        # Your code here
+    def djb2(self, key):                                                                                                                           
+        hash = 5381
+        for x in s:
+            hash = (( hash << 5) + hash) + ord(x)
+        return hash & 0xFFFFFFFF
 
 
     def hash_index(self, key):
