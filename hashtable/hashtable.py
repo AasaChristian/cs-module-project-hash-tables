@@ -93,6 +93,14 @@ class HashTable:
 
         Implement this.
         """
+        slot = self.hash_index(key)
+        hash_entry = self.MIN_CAPACITY[slot]
+
+        if hash_entry is not None:
+            # print(hash_entry.value)
+            hash_entry.value = None
+        else:
+            print("key is not found")
         
 
 
