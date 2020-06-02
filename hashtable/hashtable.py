@@ -10,7 +10,7 @@ class HashTableEntry:
 
 # Hash table can't have fewer than this many slots
 
-MIN_CAPACITY = [None] * self.capacity
+
 
 class HashTable:
     """
@@ -23,6 +23,7 @@ class HashTable:
 
     def __init__(self, capacity):
         self.capacity = capacity
+        self.MIN_CAPACITY = [None] * self.capacity
 
 
     def get_num_slots(self):
@@ -81,7 +82,7 @@ class HashTable:
         Implement this.
         """
         slot = self.hash_index(key)
-        MIN_CAPACITY[slot] = HashTableEntry(key, value)
+        self.MIN_CAPACITY[slot] = HashTableEntry(key, value)
 
 
     def delete(self, key):
@@ -92,7 +93,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        
 
 
     def get(self, key):
@@ -104,7 +105,7 @@ class HashTable:
         Implement this.
         """
         slot = self.hash_index(key)
-        hash_entry = MIN_CAPACITY[slot]
+        hash_entry = self.MIN_CAPACITY[slot]
 
         if hash_entry is not None:
             # print(hash_entry.value)
