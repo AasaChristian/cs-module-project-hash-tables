@@ -6,11 +6,59 @@ class HashTableEntry:
         self.key = key
         self.value = value
         self.next = None
+        
 
 
 # Hash table can't have fewer than this many slots
+# class Node:
+#     def __init__(self, key, value):
+#         self.key = key
+#         self.value = value
+#         self.next = None
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        
 
+    def insert_at_head(self, node):
+        # print(node.value, 'node')
+        if self.head == None:
+            self.head = node
+            # print(self.head.value, 'if')
+        else:
+            node.next = self.head
+            self.head = node
+            # print(self.head.value, 'else')
 
+    def find(self, value):
+        # print("find was called")
+        # print(self.head, 'self.head')
+        cur = self.head
+        # print(cur.value, value, 'cur.val, val')
+        while cur is not None:
+            
+            if cur.value == value:
+                # print(cur, "cur")
+                return cur.value
+            cur = cur.next
+        print("here")
+        return None
+
+    def delete(self, value):
+        cur = self.head
+        if cur.value == value:
+            self.head = self.head.next
+            return cur
+        prev = cur
+        cur = cur.next
+        while cur is not None:
+            if cur.value == value:
+                prev.next = cur.next
+                return cur
+            else:
+                prev = prev.next
+                cur = cur.next
+        return None
 
 class HashTable:
     """
@@ -23,7 +71,9 @@ class HashTable:
 
     def __init__(self, capacity):
         self.capacity = capacity
-        self.MIN_CAPACITY = [None] * self.capacity
+        self.storage = [None] * self.capacity
+        self.count = 0
+
 
 
     def get_num_slots(self):
@@ -82,7 +132,17 @@ class HashTable:
         Implement this.
         """
         slot = self.hash_index(key)
-        self.MIN_CAPACITY[slot] = HashTableEntry(key, value)
+        hashdex = self.storage[slot]
+        while hashdex is not None and hashdex != key:
+            hashdex = hashdex.next
+        if hashdex is not None:
+            hashdex.value = value
+            print(hashdex.value, hashdex.key, slot, 'hashdex if')
+        else:
+            new_entry = HashTableEntry(key, value)
+            self.storage[slot] = new_entry
+            print(self.storage[slot].value, self.storage[slot].key, slot, 'hashdex else')
+
 
 
     def delete(self, key):
@@ -94,7 +154,7 @@ class HashTable:
         Implement this.
         """
         slot = self.hash_index(key)
-        hash_entry = self.MIN_CAPACITY[slot]
+        hash_entry = self.storage[slot]
 
         if hash_entry is not None:
             # print(hash_entry.value)
@@ -113,11 +173,17 @@ class HashTable:
         Implement this.
         """
         slot = self.hash_index(key)
-        hash_entry = self.MIN_CAPACITY[slot]
+        hash_entry = self.storage[slot]
 
-        if hash_entry is not None:
-            # print(hash_entry.value)
-            return hash_entry.value
+        while hash_entry is not None:
+            if hash_entry.key == key:
+                print(hash_entry.value, slot, "value, slot")
+                break
+            else:
+                hash_entry = hash_entry.next
+                
+        
+
 
 
     def resize(self, new_capacity):
@@ -146,23 +212,27 @@ if __name__ == "__main__":
     ht.put("line_10", "Long time the manxome foe he sought--")
     ht.put("line_11", "So rested he by the Tumtum tree")
     ht.put("line_12", "And stood awhile in thought.")
+    ht.get("line_1")
+    # ht.get("line_2")
+    # ht.get("line_3")
+    # ht.get("line_4")
 
     print("")
 
-    # Test storing beyond capacity
-    for i in range(1, 13):
-        print(ht.get(f"line_{i}"))
+    # # Test storing beyond capacity
+    # for i in range(1, 13):
+    #     print(ht.get(f"line_{i}"))
 
-    # Test resizing
-    old_capacity = ht.get_num_slots()
-    ht.resize(ht.capacity * 2)
-    new_capacity = ht.get_num_slots()
+    # # Test resizing
+    # old_capacity = ht.get_num_slots()
+    # ht.resize(ht.capacity * 2)
+    # new_capacity = ht.get_num_slots()
 
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    # print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    # Test if data intact after resizing
-    for i in range(1, 13):
-        print(ht.get(f"line_{i}"))
+    # # Test if data intact after resizing
+    # for i in range(1, 13):
+    #     print(ht.get(f"line_{i}"))
 
-    print("")
+    # print("")
 
