@@ -137,11 +137,12 @@ class HashTable:
             hashdex = hashdex.next
         if hashdex is not None:
             hashdex.value = value
-            print(hashdex.value, hashdex.key, slot, 'hashdex if')
+            # print(hashdex.value, hashdex.key, slot, 'hashdex if')
         else:
             new_entry = HashTableEntry(key, value)
+            new_entry.next = self.storage[slot]
             self.storage[slot] = new_entry
-            print(self.storage[slot].value, self.storage[slot].key, slot, 'hashdex else')
+            # print(self.storage[slot].value, self.storage[slot].key, slot, 'hashdex else')
 
 
 
@@ -155,12 +156,20 @@ class HashTable:
         """
         slot = self.hash_index(key)
         hash_entry = self.storage[slot]
+        prev_entry = hash_entry
 
-        if hash_entry is not None:
-            # print(hash_entry.value)
-            hash_entry.value = None
-        else:
-            print("key is not found")
+        while hash_entry is not None:
+            if hash_entry.key == key:
+                hash_entry.value = None
+                # prev_entry.next = hash_entry.next
+                return 
+            else:
+                prev_entry = hash_entry
+                hash_entry = hash_entry.next
+        print("Key is not found")
+        return
+
+        
         
 
 
@@ -177,8 +186,7 @@ class HashTable:
 
         while hash_entry is not None:
             if hash_entry.key == key:
-                print(hash_entry.value, slot, "value, slot")
-                break
+                return hash_entry.value
             else:
                 hash_entry = hash_entry.next
                 
@@ -213,9 +221,9 @@ if __name__ == "__main__":
     ht.put("line_11", "So rested he by the Tumtum tree")
     ht.put("line_12", "And stood awhile in thought.")
     ht.get("line_1")
-    # ht.get("line_2")
-    # ht.get("line_3")
-    # ht.get("line_4")
+    ht.get("line_2")
+    ht.get("line_3")
+    ht.get("line_4")
 
     print("")
 
