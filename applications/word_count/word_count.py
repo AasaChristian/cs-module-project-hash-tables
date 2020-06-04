@@ -1,5 +1,23 @@
+
+
 def word_count(s):
-    # Your code here
+    store = {}
+    lettrs = s.split()
+    count = 1
+    if s:
+        for x in lettrs:
+            low = x.lower().replace('"', '').replace('.', '').replace(',', '')
+            if low not in store:
+                store[low] = count
+            else:
+                store[low] +=count
+
+    return store
+        
+     
+            
+    
+
 
 
 
